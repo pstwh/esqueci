@@ -1,3 +1,26 @@
 {
-	"directory": "~/.vastus"
+	"factory": [
+		{
+			"template": "laravel/model.php",
+			"format": {
+				"name": "MODEL_NAME",
+				"table_name": "TABLE_NAME",
+				"fillable_fields": "FILLABLE_FIELDS",
+				"primary_key": "PRIMARY_KEY",
+				"foreign_keys": "FOREIGN_KEYS",
+				"add_methods": "ADD_METHODS"
+			}
+		},
+		{
+			"template": "laravel/model.php",
+			"format": {
+				"name": "MODEL_NAME_2",
+				"table_name": "TABLE_NAME_2",
+				"fillable_fields": "FILLABLE_FIELDS_2",
+				"primary_key": "PRIMARY_KEY_2",
+				"foreign_keys": "FOREIGN_KEYS_2",
+				"add_methods": "ADD_METHODS_2"
+			}
+		}
+	]
 }
