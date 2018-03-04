@@ -1,19 +1,25 @@
 
 import json
+import os
 
-config = json.load(open('config.json'))
+def generate_file(data, dir):
+    os.makedirs(os.path.dirname(dir), exist_ok=True)
+    generated_file = open(dir, "w")
+    generated_file.write(data)
 
-def compiler(template, f):
+def compile_file(template, f):
+    template = open(template, 'r').read()
+
     data = template.replace('{', '(--').replace('}', '--)').replace('[--', '{').replace('--]', '}').format(**f).replace('(--', '{').replace('--)', '}')
     return data
 
-for schema in config["factory"]:
-    with open('templates/{}'.format(schema["template"])) as template:
-        schema_file = template.read()
-    template.close()
+def compile_schema(schema):
+    config = json.load(open('{}.json'.format(schema)))
+    project = config["project"]
+    for schema in config["factory"]:
+        instance = compile_file(schema["template"], schema["format"])
+        generate_file(instance, schema["name"])
 
 
-    instance = compiler(schema_file, schema["format"])
-    print(instance)
-
+compile_schema('schema')
 

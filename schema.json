@@ -1,7 +1,9 @@
 {
+	"project": "model_test",
 	"factory": [
 		{
-			"template": "laravel/model.php",
+			"name": "model/model1.php",
+			"template": "templates/laravel/model.php",
 			"format": {
 				"name": "MODEL_NAME",
 				"table_name": "TABLE_NAME",
@@ -12,7 +14,8 @@
 			}
 		},
 		{
-			"template": "laravel/model.php",
+			"name": "model/model2.php",
+			"template": "templates/laravel/model.php",
 			"format": {
 				"name": "MODEL_NAME_2",
 				"table_name": "TABLE_NAME_2",
