@@ -3,19 +3,42 @@
 	"factory": [
 		{
 			"name": "model/model1.php",
-			"template": "templates/laravel/model.php",
+			"template": "templates/laravel/model.esq",
 			"format": {
 				"name": "MODEL_NAME",
 				"table_name": "TABLE_NAME",
 				"fillable_fields": "FILLABLE_FIELDS",
-				"primary_key": "PRIMARY_KEY",
+				"primary_key": [
+					{
+						"template": "templates/laravel/label-collective.esq",
+						"format": {
+							"name": "PLACEHOLDER_NAME",
+							"placeholder": [
+								{
+									"template": "templates/laravel/label-collective.esq",
+									"format": {
+										"name": "SUBPLACEHOLDER_NAME",
+										"placeholder": "SUBPLACEHOLDER_CONTENT"
+									}
+								}
+							]
+						}
+					},
+					{
+						"template": "templates/laravel/label-collective.esq",
+						"format": {
+							"name": "PLACEHOLDER_NAME_2",
+							"placeholder": "PLACEHOLDER_CONTENT_2"
+						}
+					}
+				],
 				"foreign_keys": "FOREIGN_KEYS",
 				"add_methods": "ADD_METHODS"
 			}
 		},
 		{
 			"name": "model/model2.php",
-			"template": "templates/laravel/model.php",
+			"template": "templates/laravel/model.esq",
 			"format": {
 				"name": "MODEL_NAME_2",
 				"table_name": "TABLE_NAME_2",
