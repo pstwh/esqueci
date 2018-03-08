@@ -17,8 +17,16 @@
 								{
 									"template": "templates/laravel/label-collective.esq",
 									"format": {
-										"name": "SUBPLACEHOLDER_NAME",
-										"placeholder": "SUBPLACEHOLDER_CONTENT"
+										"name": "22222222",
+										"placeholder": [
+											{
+												"template": "templates/laravel/label-collective.esq",
+												"format": {
+													"name": "1111111",
+													"placeholder": "SUBPLACEHOLDER_CONTENT"
+												}
+											}
+										]
 									}
 								}
 							]
@@ -28,7 +36,15 @@
 						"template": "templates/laravel/label-collective.esq",
 						"format": {
 							"name": "PLACEHOLDER_NAME_2",
-							"placeholder": "PLACEHOLDER_CONTENT_2"
+							"placeholder": [
+								{
+									"template": "templates/laravel/label-collective.esq",
+									"format": {
+										"name": "SUBPLACEHOLDER_NAME",
+										"placeholder": "SUBPLACEHOLDER_CONTENT"
+									}
+								}
+							]
 						}
 					}
 				],
