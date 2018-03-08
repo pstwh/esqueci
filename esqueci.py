@@ -12,9 +12,12 @@ def unwrap_format(factories):
         for key in factory["format"]:
             if(type(factory["format"][key]) is list):
                 unwrap_format(factory["format"][key])
-                template = open(factory["format"][key][0]["template"], 'r').read()
 
-                factory["format"][key] = template.replace('{', '(--').replace('}', '--)').replace('[--', '{').replace('--]', '}').format(**factory["format"][key][0]["format"]).replace('(--', '{').replace('--)', '}')
+                partial_unwrapped = ''
+                for module in factory["format"][key]: 
+                    template = open(module["template"], 'r').read()
+                    partial_unwrapped = partial_unwrapped + template.replace('{', '(--').replace('}', '--)').replace('[--', '{').replace('--]', '}').format(**module["format"]).replace('(--', '{').replace('--)', '}')
+                factory["format"][key] = partial_unwrapped
 
 def compile_file(template, f):
     template = open(template, 'r').read()
@@ -27,6 +30,8 @@ def compile_schema(schema):
     project = config["project"]
     
     unwrap_format(config["factory"])
+
+    #print(config["factory"])
 
     for schema in config["factory"]:
         instance = compile_file(schema["template"], schema["format"])
