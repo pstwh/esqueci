@@ -2,12 +2,16 @@ from src.database import database
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
-class Model:
+class Model():
     def __init__(self, table_name):
         self.collection = database[table_name]
 
     def all(self):
         cursor = self.collection.find()
+        return dumps(cursor)
+    
+    def where(self, query):
+        cursor = self.collection.find(query)
         return dumps(cursor)
 
     def find(self, id):
