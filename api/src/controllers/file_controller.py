@@ -1,5 +1,6 @@
-from flask import request
+from flask import request, jsonify
 from src.models.files import Files
+
 from loader import app
 
 file = Files()
@@ -14,13 +15,22 @@ def index(search):
 def create():
     template_name = request.form['template_name']
     if(file.exists(template_name)):
-        return "Exists"
+        return jsonify(
+            {
+                "insert": False,
+                "error": "template exists"
+            }
+        )
 
     template_file = request.files['template_file']
-    #return template_file
     template_file.save(f'/{template_name}')
 
-    return "Ok"
+    return jsonify(
+        {
+            "insert": True,
+            "template_name": template_name
+        }
+    )
 
 @app.route("/files/retrieve/<string:name>")
 def retrieve():
