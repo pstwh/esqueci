@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for
 from flask_pymongo import PyMongo
 
 
@@ -7,7 +7,7 @@ app.config.from_pyfile('env.cfg')
 
 @app.route("/")
 def home():
-    return "home"
+    return url_for('retrieve_template', template_name='teste_name')
 
 from src.controller import *
 
