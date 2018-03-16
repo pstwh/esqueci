@@ -4,6 +4,7 @@ from src.models.files import Files
 from loader import app
 
 import os
+import datetime
 
 file = Files()
 
@@ -15,19 +16,35 @@ def index(search):
 
 @app.route("/files/create", methods=['POST'])
 def create():
-    uploaded_file = request.files['template_file']
+    storage_dir = app.config["STORAGE_DIR"]
 
     template_name = request.form['template_name']
-    file_name = uploaded_file.filename
+    selected_name = request.form['selected_name']
+    uploaded_file = request.files['template_file']
+    uploaded_file_name = uploaded_file.filename
+    uploaded_file_extension = uploaded_file_name.rsplit('.', 1)[1].lower()
 
-    if not os.path.isdir(f'{app.config["STORAGE_DIR"]}/{template_name}'): os.makedirs(f'{app.config["STORAGE_DIR"]}/{template_name}')
+    template_dir = f'{storage_dir}/{template_name}'
+    uploaded_dir = f'{template_dir}/{selected_name}'
+    if not os.path.isdir(template_dir): os.makedirs(template_dir)
 
-    if(file.exists(f'{app.config["STORAGE_DIR"]}/{template_name}/{file_name}')): 
-        return jsonify({"insert": False, "error": "template exists"})
+    if not os.path.isfile(uploaded_dir): 
+        uploaded_file.save(uploaded_dir)  
+
+        obj_file = {
+            "template_name": template_name,
+            "selected_name": selected_name,
+            "file_extension": uploaded_file_extension,
+            "uploaded_dir": uploaded_dir,
+            "created_at": datetime.datetime.now(),
+            "updated_at": datetime.datetime.now()
+            }
+
+        file.create(obj_file)
+
+        return jsonify({"insert": True})
     else:
-        uploaded_file.save(f'{app.config["STORAGE_DIR"]}/{template_name}/{file_name}')    
-        return jsonify({"insert": True, "template_name": template_name})
-    
+        return jsonify({"insert": False, "error": "template exists"})
 
 @app.route("/files/retrieve/<string:name>")
 def retrieve():
