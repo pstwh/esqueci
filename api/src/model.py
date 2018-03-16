@@ -5,16 +5,12 @@ from bson.json_util import dumps
 class Model():
     def __init__(self, table_name):
         self.collection = database[table_name]
-
-    def all(self):
-        cursor = self.collection.find()
-        return dumps(cursor)
-    
-    def where(self, query):
+        
+    def find(self, query):
         cursor = self.collection.find(query)
         return dumps(cursor)
 
-    def find(self, id):
+    def find_by_id(self, id):
         return self.collection.find_one({"_id": ObjectId(id)})
 
     def create(self, obj):
