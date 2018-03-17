@@ -5,7 +5,6 @@ from loader import app
 
 import os
 import datetime
-import shutil
 import hashlib
 import zipfile
 from io import BytesIO
@@ -50,35 +49,20 @@ def create():
     else:
         return jsonify({"insert": False, "error": "template exists"})
 
-"""
 @app.route("/template/<string:template_name>")
 def retrieve_template(template_name):
-    temp_md5 = hashlib.md5(template_name.encode('utf-8')).hexdigest()
-    temp_path = f'{app.config["TEMP_DIR"]}/{temp_md5}'
     template_dir = f'{app.config["TEMPLATE_DIR"]}/{template_name}'
 
-    shutil.make_archive(temp_path, 'zip', template_dir)
-    temp_file = open(f'{temp_path}.zip', 'r')
+    b = BytesIO()
+    zf = zipfile.ZipFile(b, "w")
 
-    return send_file(temp_file, attachment_filename=f'{template_name}.zip')
-    
-"""
+    for template in os.listdir(template_dir):
+        print(f'{template_dir}/{template}')
+        zf.write(f'{template_dir}/{template}', template)
+    zf.close()
+    b.seek(0)
 
-@app.route("/template/<string:template_name>")
-def retrieve_template(template_name):
-    temp_md5 = hashlib.md5(template_name.encode('utf-8')).hexdigest()
-    temp_path = f'{app.config["TEMP_DIR"]}/{temp_md5}'
-    template_dir = f'{app.config["TEMPLATE_DIR"]}/{template_name}'
+    return send_file(b, mimetype = "application/zip", as_attachment=True, attachment_filename=f'{template_name}.zip')
 
-    temp_zip = BytesIO()
-    with zipfile.ZipFile(temp_zip, 'w', compression=zipfile.ZIP_DEFLATED, allowZip64=True) as zf:
-        for root, dirs, files in os.walk(template_dir):
-            for f in files:
-                data = zipfile.ZipInfo(f['fileName'])
-                data.date_time = time.localtime(time.time())[:6]
-                data.compress_type = zipfile.ZIP_DEFLATED
-                zf.writestr(data, f['fileData'])
-    memory_file.seek(0)
-    return send_file(temp_zip, attachment_filename=f'{template_name}.zip')
     
 
