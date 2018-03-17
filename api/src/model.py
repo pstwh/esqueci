@@ -10,6 +10,10 @@ class Model():
         cursor = self.collection.find(query)
         return dumps(cursor)
 
+    def find_one(self, query):
+        cursor = self.collection.find_one(query)
+        return dumps(cursor)
+
     def find_by_id(self, id):
         return self.collection.find_one({"_id": ObjectId(id)})
 

@@ -20,7 +20,7 @@ def create_schema():
     schema_json = json.loads(schema_file.read())
 
     obj_schema = {
-        "schame_name": schema_name,
+        "schema_name": schema_name,
         "schema_description": schema_json,
         "created_at": datetime.datetime.now(),
         "updated_at": datetime.datetime.now()
@@ -30,3 +30,7 @@ def create_schema():
 
     return jsonify({"insert": True})
     
+@app.route("/schema/<string:schema_name>")
+def retrieve_schema(schema_name):
+   schema_json = schema.find_one({"schema_name": schema_name})
+   return schema_json

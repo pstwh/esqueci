@@ -30,9 +30,7 @@ def create_template():
 
     if not os.path.isfile(uploaded_dir): 
         uploaded_file.save(uploaded_dir)  
-        #print(template_dir)
-        #shutil.make_archive(f'{template_dir}/{template_name}', 'zip', template_dir)
-
+        
         obj_file = {
             "template_name": template_name,
             "selected_name": selected_name,
