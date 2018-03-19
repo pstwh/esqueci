@@ -1,9 +1,10 @@
+
 class FileManufacturer():
-    def __init__(self, template_file):
-        self.template = template_file
+    def __init__(self, template):
+        self.template = template
 
     def compile(self, f):
-        data = template\
+        data = self.template\
         .replace('{', '(--')\
         .replace('}', '--)')\
         .replace('[--', '{')\
@@ -14,8 +15,11 @@ class FileManufacturer():
 
         return data
 
-    def generate(self, data, dir):
+    def generate(self, dir, f):
         os.makedirs(os.path.dirname(dir), exist_ok=True)
+
+        data = self.compile(f)
+
         file = open(dir, "w")
         file.write(data)
 
