@@ -1,3 +1,4 @@
 templates
 schemas
 .vscode
+**/__pycache__
